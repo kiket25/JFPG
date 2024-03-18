@@ -11,181 +11,189 @@ tags: ["cybersecurity","safe", "wp", "update", "wordpress"]
 
 ---
 
-**ColddBox Machine - Tryhackme**
+# Maquina ColddBox - Tryhackme
 
-In this first scenario we have chosen a machine with Linux operating system that contains a web server with a CMS Wordpress as this is quite used nowadays and I think it would be useful to include it in the project, as many companies do not usually update it much and I think it would be important to show what could happen if you do not update this CMS.
+  En este primer escenario se ha elegido una maquina con sistema operativo Linux que contiene un servidor web con un CMS Wordpress ya que este es bastante usado en la actualidad y creo que sería útil incluirlo en el proyecto, ya que muchas empresa lo no lo suelen actualizar mucho y creo sería importante mostrar que podría pasar si no actualizas este CMS.
 
-As a machine I will use the ColddBox machine that is on the page called Tryhackme, a machine where it contains different machines ready to be exploited without correcting the risk that may affect real environments, but they are simulated scenarios.
+Como maquina voy a usar la de ColddBox que se encuentra en la pagina llamada Tryhackme, una maquina donde contiene diferentes maquinas preparas para ser explotadas sin corregir el riesgo de que pueda afectar a entornos reales, si no que son escenarios simulad
 
-1. **Enumeration and Recognition**
-1. First we will proceed to scan all the ports of the target machine, since we only have the ip address, but previously we can insert that ip in the browser to see if there is any website.
+1. ## Enumeración y Reconocimiento
+    
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.002.jpeg)
+1. En primer lugar vamos a proceder a escanear todos los puertos de la maquina objetivo, ya que solo tenemos la dirección ip, pero previamente podemos insertar esa ip en el navegador para ver si existe algún sitio web.
+    
 
-We see that there is a web page, but we are going to launch a scan with **nmap** to see if it has any other port.
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_7949aab8.png)  
 
-To do this we will use the following command:
+Vemos que si que existe una página web, pero vamos a lanzar un escaneo con **nmap** para ver si tiene algún otro puerto.
+Para ello utilizaremos el siguiente comando:
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.003.png)
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_d5020ce6.png)  
 
-And it would show us the following result:
+  Y nos mostraría el siguiente resultado:
 
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_1941bb34.png)  
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.004.png)
+He usado un escaneo un poco más avanzado ya que un simple escaneo de nmap mostraba solo el puerto 80 como muestro en esta captura.
 
-I used a slightly more advanced scan since a simple nmap scan showed only port 80 as shown in this screenshot.
+Por eso he usado los siguientes parámetros para hacer el escaneo un poco más avanzado
 
-Therefore, I have used the following parameters to make the scan a little more advanced
+![lu169821xx3_tmp_902d170c.png](app://8c8410ee5504af7a6850d95079421632b73d/Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_902d170c.png)  
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.005.png)
+- **-sV** → Esta opción habilita la detección de versiones de servicios en los puertos de nmap. Es decir, nmap intentara determinar qué servicio se está ejecutando en cada puerto abierto y que versión de software utiliza.
+    
+- **-p-** → esta opción indica que se deben escanear todos los puertos TCP. Es decir, que nmap intentara conectarse a cada puerto TCP en el rango de 1 a 65535.
+    
+- **--open** → esta opción indica que solo se deben mostrar los puertos que este abiertos, es decir que nmap solo nos mostrara los que respondan a las solicitudes de conexión.
+    
+- **--min-rate** → Esta opción establece la velocidad mínima de paquetes en 8000 paquetes por segundo. Pero esto es una opción no recomendad para entornos de producción ya que suele ser muy agresivo.
+    
+- **-Pn** → esta opción indica que se deben ignorar los hosts que no responden a las solicitudes de ping. Es decir, Nmap no intentará determinar si el host está activo antes de realizar el escaneo.
+    
+Ahora vamos a profundizar un poco y usando la opción _(-p)_ para especificar los dos puertos y _(-sCV)_ para 
+algo más de información más detallada acerca de los puertos que tiene abiertos esta máquina. Tras analizar la información devuelta por NMAP se confirma que los puertos TCP 80 y 4512 están abiertos y en ellos corren dos servicios cuyas versiones ya se conocen.
 
-- **-sV** → This option enables the detection of service versions on nmap ports. That is, nmap will attempt to determine which service is running on each open port and which software version it uses.
-- **-p-** → this option indicates that all TCP ports should be scanned. That is, nmap will attempt to connect to every TCP port in the range 1 to 65535.
-- **--open** → this option indicates that only open ports should be shown, i.e. nmap will only show the ports that respond to connection requests.
-- **--min-rate** → This option sets the minimum packet rate to 8000 packets per second. But this is an option not recommended for production environments as it tends to be very aggressive.
-- **-Pn** → this option indicates that hosts that do not respond to ping requests should be ignored. That is, Nmap will not attempt to determine if the host is active before performing the scan.
+Con esta información obtenemos el siguiente resumen:
 
-Now let's go a little deeper and use the *(-p)* option to specify the two ports and *(-sCV)* for some more detailed information about the ports that are open on this machine. After analyzing the information returned by NMAP, it is confirmed that TCP ports 80 and 4512 are open and two services whose versions are already known are running on them.
+- **TCP 80** → Servicio HTTP → Aplicación Apache versión 2.4.18
+    
+- **TCP 4512** → Servicio SSH → Aplicación OpenSSH versión 2.10 Ubuntu, Protocolo 2.0
 
-With this information we obtain the following summary:
-
-- **TCP 80** → HTTP service → Apache application version 2.4.18
-  - **TCP 4512** → SSH Service → OpenSSH Application version 2.10 Ubuntu, Protocol 2.0
-
-First, the HTTP service behind port TCP80 will be investigated and the whatweb and nikto tools will be used to obtain some additional information:
+En primer lugar se procede a investigar el servicio HTTP tras el puerto TCP80 y se usaran las herramientas whatweb y nikto para obtener algo más información adicional:
 
 **HTTP (TCP80)**
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_fd6e02c.png) 
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.006.png)
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_c481e46a.png)  
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.007.jpeg)
+  Gracias a estas dos herramientas podemos confirmar que realmente se trata de un servidor web Apache con la versión 2.4.18 y usando wordpress en la versión 4.1.31 con lo cual esto significa que esta versión de wordpress podría ser vulnerable ya que muchas versiones antiguas de este CMS puede tener vulnerabilidades.
+ 
+ Buscando la versión de wordpress en el navegador nos lleva a esta página del NIST, la cual nos lleva al siguiente CVE el 2020-4046 que si nos fijamos en la descripción afectaría a nuestra versión de wordpress. “Según **INCIBE**, en las versiones afectadas, los usuarios aunque carezcan de privilegios como colaboradores y autores puede usar el bloque incorporado de determinada manera para inyectar código HTML no filtrado en el editor de bloques. Cuando las publicaciones afectadas son vistas por un usuario con mayores privilegios, esto podría conllevar a una ejecución de script en el archivo editor/wp-admin"
 
-Thanks to these two tools we can confirm that it really is an Apache web server with version 2.4.18 and using wordpress version 4.1.31 which means that this version of wordpress could be vulnerable as many older versions of this CMS can have vulnerabilities.
+  ![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_6db19ebd.png)
+  
+Ahora tratándose de wordpress, esta CMS tiene una página llamada wp-admin, la cual contiene un login que nos llevara al panel de administración del sitio web el cual nos va a servir para explotar esa vulnerabilidad. Pero el primer paso sería saber que usuarios puede acceder al panel de administración.
 
-Searching for the wordpress version in the browser takes us to this NIST page, which leads us to the following CVE the 2020-4046 that if we look at the description would affect our version of wordpress. "According to **INCIBE**, in the affected versions, users even if they lack privileges as contributors and authors can use the built-in block in a certain way to inject unfiltered HTML code into the block editor. When the affected posts are viewed by a user with higher privileges, this could lead to a script execution in the editor/wp-admin file."
+Para ello lanzaremos el siguiente comando,
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.008.jpeg)
+	Wpscan –url_ [_http://10.10.21.213_](http://10.10.21.213/) _–enumarate u_
 
-Now being wordpress, this CMS has a page called wp-admin, which contains a login that will take us to the administration panel of the website which will serve us to exploit this vulnerability. But the first step would be to know which users can access the administration panel.
+  Lo que hará este comando es con el parámetro –url nos cogerá la url del sitio web wordpress el –enumerate u nos enumerara solo los usuarios que encontré.
 
-To do so, we will launch the following command,
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_521a60f4.png)  
 
-Wpscan -url\_ [\[_http://10.10.21.213_\](http://10.10.21.213/) _-enumerate u_](http://10.10.21.213/\))![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.009.png)
+Vemos que nos muestra tres usuarios, de los cuales, nos creamos un pequeño diccionario con estos tres nombres y usando la misma herramienta de Wpscan junto con el diccionario por defecto rockyou intentaremos mediante fuerza bruta conseguir dicha contraseña para acceder al panel de control.
 
-What this command will do is with the -url parameter it will take the url of the wordpress website and the -enumerate u will enumerate only the users that I found.
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_60082c2b.png)  
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.010.png)
-
-We see that it shows us three users, of which, we create a small dictionary with these three names and using the same Wpscan tool along with the default dictionary rockyou we will try by brute force to get the password to access the control panel.
-
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.011.jpeg)
-
-As we can see we got the password for the user c0ldd that would be 9876543210, then with this data we can proceed to access and move to the exploitation part.
+Como podemos ver nos saco la contraseña para el usuario c0ldd que seria 9876543210, entonces con esto datos ya podemos proceder a acceder y pasar a la parte de explotación.
 
 **SSH (TCP 4512)**
 
-Secondly, we proceed to investigate the ssh service behind the TCP4512 port and check that it does not allow login without password or with the default root password which would be toor.
+En segundo lugar, se procede a investigar el servicio ssh tras el puerto TCP4512 y se comprueba que no se permite login sin contraseña o con la contraseña por defecto de root que sería toor.
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.012.png)
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_1faef29a.png)  
 
-**Vulnerability Analysis**
+## Análisis de Vulnerabilidades
 
-In the next phase as we have already achieved, obtain the username and password to access the control panel and thus be able to exploit the vulnerability of the wordpress editor which will allow us to obtain a reverse shell by inserting php code in the wordpress editor using the 404.php page located in the themes > themename and editor section.
+En la siguiente fase como ya hemos conseguido, obtener el usuario y contraseña para poder acceder al panel de control y así poder explotar la vulnerabilidad del editor wordpress la cual nos permitirá obtener un Shell reverso insertando código php en el editor de wordpress usando la página 404.php ubicada en la sección themes > nombredeltema y editor.
 
-But first we are going to perform a series of tests inserting small php snippets to check well that we can insert php code.
+Pero primero vamos a realizar una serie de pruebas insertando pequeños fragmentos php para comprar bien que podemos insertar código php.
 
 **TEST 1**
+El primer test que realizaremos será el de insertar una pequeña función php llamada phpinfo () la cual nos va a mostrar información detallada sobre php como puede ser su versión y poco más.
 
-The first test we will perform will be to insert a small php function called phpinfo () which will show us detailed information about php such as its version and little else.
-
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.013.jpeg)
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_74d216ce.png)  
 
 **TEST 2**
+El segundo test costara de intentar lanzar un simple comando a través de una sentencia php, la cual nos va a servir para verificar en que directorio estamos y si realmente podemos usar comandos del servidor a través de wordpress.
 
-The second test will be to try to launch a simple command through a php statement, which will help us to verify in which directory we are and if we can really use commands from the server through wordpress.
-
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.014.jpeg)
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_60eff4b2.png)  
 
 **TEST 3**
+Debido a que podemos listar los directorios actuales del servidor y sabiendo ya en carpeta nos encontraremos usando la secuencia _‘..’._ Que en Linux significa el directorio anterior entonces intentaremos listar si existe el user.txt y que permisos tiene.
 
-Because we can list the current directories of the server and knowing already in folder we will find ourselves using the sequence *'..'.* Which in Linux means the previous directory then we will try to list if the user.txt exists and what permissions it has.
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_9de4fc98.png)  
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.015.jpeg)
+Ahora ya sabemos que podemos usar comandos del sistema, así que como nosotros somos el www-data que es el usuario web en apache2, podemos intentar ir a la carpeta donde se encuentran los ficheros de configuración de wordpress e ir al fichero wp-config.php el cual es donde nosotros escribimos los datos de la base de wordpress y coger el usuario y contraseña y probar de conectarnos vía ssh.
 
-Now we know that we can use system commands, so as we are the www-data which is the web user in apache2, we can try to go to the folder where the wordpress configuration files are located and go to the wp- config.php file which is where we write the wordpress database data and take the username and password and try to connect via ssh.
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_91137bd7.png)  
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.016.jpeg)
+Aquí podemos ver que mediante el siguiente comando _CAT ../../../wp-config.php,_ el cual nos muestra por pantalla el fichero wp-config el cual vemos el nombre de usuario y contraseña
 
-Here we can see that using the following command *CAT ../../.../wp-config.php,* which shows us the wp-config file on the screen, in which we see the username and password
+Usados en la para configurar la base de datos de wordpress, entonces lo que voy a hacer es insertar _el db_username y db_password_ para acceder a la maquina vía ssh por el puerto 4512 que es el que encontramos en la fase de reconocimiento.
 
-Used in the to configure the wordpress database, then what I am going to do is to insert *the db\_username and db\_password* to access the machine via ssh on port 4512 which is the one we found in the reconnaissance phase.
+Aquí en esta otra captura voy a mostrar que he podido acceder vía ssh usando los credenciales encontrados en el fichero wp-config.php, el cual deberían pertenecer a la base de datos.
 
-Here in this other screenshot I am going to show that I have been able to access via ssh using the credentials found in the wp-config.php file, which should belong to the database.
+Y ahora ya sí que podríamos ir a user.txt y leer la flag del usuario y ya tendríamos una parte que es la de conseguir acceder con un usuario del sistema.
 
-And now we could go to user.txt and read the flag of the user and we would already have a part that is to get access with a user of the system.
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_212f52e0.png)  
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.017.jpeg)
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_6998a9a7.png)
+## Explotación
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.018.png)
+En este punto, ahora que ya hemos analizado la vulnerabilidad y obtenido acceso con un usuario del sistema, para poder acceder a la siguiente flag debemos acceder mediante la **escalada de privilegios** y para ello hay diferentes puntos a revisar de la maquina:
 
-**Exploitation**
+- Se revisa la configuración y el contenido de los ficheros **passwd y shadow**: los únicos usuarios con el shell bash asignada son “c0ldd” y “root”. El fichero /etc/shadow se encuentra protegido y solo es legible por root.
+    
+- El usuario c0ldd, haremos un **sudo -l** para ver si hay algún programa con permisos root que pueda ejecutar el usuario.
+    
+- Se buscan ficheros con permisos especiales **SUID y SGID**, no se encuentran ficheros con permisos especiales fuera del estándar para el correcto funcionamiento de Linux
+    
+- Revisar tareas programadas, para localizar si existe alguna que ejecute algún script con altos privilegios, pero no existe ninguna.
+    
+- Y **revisar la versión del kernel** ya que puede haber alguna de las versiones más antiguas de kernel de Linux que pueda ser vulnerable, pero no es nuestro caso.
+    
+En nuestro caso el fallo de seguridad se encontrara en que al ejecutar sudo -l, nos llevara a tres binarios de los cuales pertenecen a root pero el usuario tiene permiso para ejecutarlas usando sudo.
 
-At this point, now that we have already analyzed the vulnerability and obtained access with a system user, in order to access the next flag we must access through **privilege escalation** and for this there are different points to check on the machine:
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_390f957a.png) 
 
-- The configuration and contents of the **passwd and shadow** files are checked: the only users with the bash shell assigned are "c0ldd" and "root". The /etc/shadow file is protected and readable only by root.
-  - The user c0ldd, we will do a **sudo -l** to see if there is any program with root permissions that can run the user.
-    - Search for files with special permissions **SUID and SGID**, no files with special permissions outside the standard for the correct operation of Linux Check scheduled 
-      - tasks, to locate if there is any that run any script with high privileges, but there is none.
-        - And **check the kernel version** as there may be some of the older Linux kernel versions that may be vulnerable, but this is not our case.
+Se trata de los binarios de vim (un editor de texto, que se usa en Linux para editar ficheros en modo terminal), la herramienta chmod (Que sirve para otorgar permisos UGO en Linux) y el FTP (el cual es un protocolo de transferencia de archivos).
 
-In our case the security flaw will be found in that when running sudo -l, it will take us to three binaries of which belong to root but the user has permission to run them using sudo.
+Estos tres binarios podrían ser nos de utilidad para escalar privilegios ya que gracias a la página de GTFoBins, podemos encontrar cierto comando para ejecutar ciertos ficheros que podrías dar nos acceso root.
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.019.png)
+En mi caso voy a usar ftp, el cual sería bastante sencillo ya que lo que podemos hacer será con sudo delante ejecutar _ftp_ de forma normal y cuando nos abra una _shell_ con el prompt de _ftp>_ introduciremos! /_bin/sh._
 
-These are the vim binaries (a text editor, which is used in Linux to edit files in terminal mode), the chmod tool (which is used to grant UGO permissions in Linux) and FTP (which is a file transfer protocol).
+Pero si este mismo comando lo ejecutamos sin sudo delante, lo que nos ara será mostrar una shell normal, eso es debido a que sudo es lo que hace que pueda ejecutar ftp como usuario privilegiado.
 
-These three binaries could be useful for privilege escalation because thanks to the GTFoBins page, we can find a certain command to execute certain files that could give us root access.
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_a095da9b.png)
 
-In my case I am going to use ftp, which would be quite simple since what we can do will be with sudo in front run *ftp* in a normal way and when it opens a *shell* with the *ftp>* prompt we will enter ! /bin/sh*.*
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_2f8a5841.png)  
 
-But if we execute this same command without sudo in front of it, it will show us a normal shell, that is because sudo is what makes it possible to execute ftp as a privileged user.
+Y ahora ya tendrías la flag de root
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.020.png)
+![](file:///Users/jfpg/Library/Application%20Support/LibreOffice/4/user/temp/lu169821xww.tmp/lu169821xx3_tmp_161279db.png)  
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.021.png)
 
-And now you would have the root flag
+**Escenario ColddBox-Easy**
 
-![](Aspose.Words.af8f7505-378f-450b-8737-2b7e7e5c0c14.022.png)
+- Flag del **usuario**: RmVsaWNpZGFkZXMsIHByaW1lciBuaXZlbCBjb25zZWd1aWRvIQ==
+    
+- Flag de **root**: wqFGZWxpY2lkYWRlcywgbcOhcXVpbmEgY29tcGxldGFkYSE=
+    
+## Post-Explotación
+    
+Como tarea de **post-explotación** voy a nombrar algunas nociones básicas de seguridad para poder arreglar estos pequeños fallos que nos han hecho conseguir acceso al host y poder escalar privilegios.
 
-**ColddBox-Easy scenario**
+- En primer lugar con respecto al acceso al panel de control de wordpress, abría que usar contraseñas un mas fuertes o que no se encuentre en los diccionarios comunes de contraseñas, ya que usando un simple diccionario común que encontramos en kali Linux hemos podido acceder al CMS.
+    
+- Por otro convendría actualizar la versión de wordpress ya que estos posibles fallos como es el que podamos insertar comandos del servidor en el editor de código en versiones más recientes se encuentra ya parcheado. Es por eso que es muy importante usar siempre la última versión.
+    
+- Y también convendría no usar el mismo usuario y contraseña para el usuario del servidor que para el usuario de la base de datos de wordpress sobre si es de un usuario con privilegios de sudo.
+## Reporte y Mitigación  
+**VULNERABILIDAD**
 
-- Flag of the **user**: RmVsaWNpZGFFkZXMsIHByaW1lciBuaXZlbCBjb25zZWd1aWRvIQ==
-  - **Root** flag: wqFGZWxpY2lkYWRlcywgbcOhcXVpbmEgY29tcGxxldGFFkYSE=
+**CVE: CVE** el 2020-4046
 
-**Post-Exploitation**
+**SERVICIO:** Wordpress Versiones 5.4 a anteriores.
 
-As a **post-exploitation** task I am going to name some basic security notions to be able to fix these small bugs that have made us gain access to the host and be able to escalate privileges.
+**INFORMACIÓN: En** las versiones de wordpress afectadas, usuarios con pocos permisos (como colaboradores o autores) pueden aprovecharse de un bloque llamado “embed” para introducir código HTML sin restricciones en el editor de bloques. Cuando un usuario con permisos más altos ve estos mensajes más altos, podría permitir la ejecución de scripts en el editor o en la parte de administración de Wordpress (wp-admin).
 
-- First of all regarding the access to the wordpress control panel, we should use stronger passwords or passwords that are not in the common password dictionaries, since using a simple common dictionary found in kali Linux we have been able to access the CMS.
-  - On the other hand it would be convenient to update the wordpress version since these possible bugs such as the one that we can insert commands from the server in the code editor in more recent versions is already patched. That is why it is very important to always use the latest version.
-    - And also it would be convenient not to use the same user and password for the user of the server that for the user of the wordpress database if it is of a user 
+**MITIGACIÓN: y** para poder mitigar este problema lo más recomendable seria actualizar la versión de wordpress ya que si por algo hay versiones más recientes es por eso para corregir este tipo de fallos de seguridad. Además de monitorear y restringir los privilegios que se le aplican a los usuarios sobre el sistemas. Así como existen muchos plugins de seguridad que pueden detectar y prevenir este tipo de ataques como pueden ser Wordfence Security, Sucuri Security, iThemes Security, BulletProof Security, All In One WP Security & Firewall, Security Ninja, MalCare Security, Cerber Security, Antispam & Malware Scan.
 
-with sudo privileges.
 
-**Reporting and Mitigation**
+### INFORMACIÓN ADICIONAL:
 
-**VULNERABILITY CVE:** 
+[https://nvd.nist.gov/vuln/detail/CVE-2020-4046](https://nvd.nist.gov/vuln/detail/CVE-2020-4046)
 
-**CVE** el 2020-4046
-
-**SERVICE:** Wordpress Versions 5.4 and earlier.
-
-**INFO: In** the affected wordpress versions, users with low permissions (such as contributors or authors) can take advantage of a block called "embed" to insert unrestricted HTML code in the block editor. When a user with higher permissions sees these higher messages, it could allow the execution of scripts in the editor or in the administration part of Wordpress (wp-admin).
-
-**MITIGATION: and** in order to mitigate this problem the most advisable would be to update the version of wordpress because if there is a reason why there are more recent versions is because of that to correct this type of security flaws. In addition to monitor and restrict the privileges that are applied to users on the system. As well as there are many security plugins that can detect and prevent such attacks such as Wordfence Security, Sucuri Security, iThemes Security, BulletProof Security, All In One WP Security & Firewall, Security Ninja, MalCare Security, Cerber Security, Antispam & Malware Scan.
-
-**ADDITIONAL INFORMATION:**
-
-[https://nvd.nist.gov/vuln/detail/CVE-2020-4046 ]
-[https://www.incibe.es/incibe-cert/alerta-temprana/vulnerabilidades/cve-2020-9046]
+https://www.incibe.es/incibe-cert/alerta-temprana/vulnerabilidades/cve-2020-9046
