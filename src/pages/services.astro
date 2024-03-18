@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HorizontalCard from "../components/HorizontalCard.astro";
+---
+
+<BaseLayout title="Projects" sideBarActiveItemID="services">
+  <div>
+    <div class="text-3xl w-full font-bold mb-5">Services</div>
+  </div>
+
+  <HorizontalCard
+    title="Wordpress management"
+    img="/wp.png"
+    desc="I help you to deploy, manage and secure your wordpress site."
+    url="https://es.fiverr.com/quicoperez/do-your-webside-more-secure?context_referrer=tailored_homepage_perseus&source=recently_viewed_gigs&ref_ctx_id=73d3353133034190a70297dac4dc5205&context=recommendation&pckg_id=1&pos=1&context_alg=recently_viewed&seller_online=true&imp_id=3686cc74-cfb7-4efc-881d-f661848bf6d4"
+  />
+  <div class="divider my-0"></div>
+  <HorizontalCard
+    title="Cybersecurity Consulting"
+    img="/cybersec.jpeg"
+    desc="I solve your doubts about how secure is your website, your company or your passwords."
+    url="https://www.upwork.com/freelancers/~01f7f01af048cc33b0"
+  />
+</BaseLayout>

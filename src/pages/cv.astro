@@ -1,0 +1,110 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import TimeLineElement from "../components/cv/TimeLine.astro";
+---
+
+<BaseLayout title="Resume" sideBarActiveItemID="cv">
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Profile</div>
+  </div>
+
+  <div class="mb-10 text-justify">
+  I am a  Systems Administration with a specialization in Cybersecurity. My background has provided me with advanced knowledge in computer systems, networks, databases and hardware, as well as skills in vulnerability analysis and cyber threat prevention. 
+  My passion for cybersecurity motivates me to apply my skills and experience to protect the systems and data of companies, being a highly trained professional focused on results.
+  </div>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Education</div>
+  </div>
+
+  <div class="time-line-container grid gap-4 mb-10">
+    <TimeLineElement
+    title="General English"
+    subtitle="[Current] at [Lexis English Brisbane], [Brisbane, QLD], [Australia]"
+  />
+    <TimeLineElement
+      title="Master in Cybersecurity"
+      subtitle="[2022] to [2023] at [INESEM Business School], [Granada], [Spain]"
+    />
+    <TimeLineElement
+      title="Diplomate in System Administration and Networking"
+      subtitle="[2018] to [2021] at [Cip de FP Batoi], [Alcoy], [Spain]"
+    />
+  </div>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Experience</div>
+  </div>
+
+  <div class="time-line-container mb-10">
+    <TimeLineElement
+      title="Factory Worker"
+      subtitle="From [May; 2022] to [December; 2023] at [Envases Dura S.L], [Castalla], [Spain]"
+    >
+      <ul>
+        <li>Collect boxes that exit the machine and pack it.</li>
+        <li>Use hand pallet to load trucks.</li> 
+        <li>Using bailing machine to pack their boxes.</li>
+        <li>Maintain and Clean the machine area.</li>
+      </ul>
+    </TimeLineElement>
+    <br/>
+    <TimeLineElement
+      title="Internship System Administration"
+      subtitle="From [March; 2021] to [June; 2021] at [Gea Enterprise], [Castalla], [Spain]"
+    >
+    <ul>
+      <li>Repair computers and laptops (including macbooks).</li>
+      <il>Active directory management.</il>
+      <li>Linux installation and management.</li>
+      <li>Firewalls configuration and management.</li> 
+      <li>Using Microsoft Excel.</li>
+    </ul>
+    </TimeLineElement>
+    <br/>
+    <TimeLineElement
+      title="Internship It Techncia and Customer Service"
+      subtitle="From [March; 2018] to [June; 2018] at [APP Informática], [Onil], [Spain]"
+    >
+    <ul>
+      <li>Repair computers and laptops (including macbooks).</li>
+      <li>Inventory management.</li>
+      <li>Sell computer products.</li> 
+      <li>Basic technical support.</li>
+      <li>Recover data information.</li>
+    </ul>
+    </TimeLineElement>
+  </div>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Certifications</div>
+  </div>
+
+  <ul class="list-disc mx-6 mb-10 grid gap-2">
+    <li>
+      <a href="#" target="_blank">Ethical Hacking Course -- HackRocks</a>
+    </li>
+    <li>
+      <a href="#" target="_blank">Basic Cybersecurity course -- CCN-SPAIN</a>
+    </li>
+  </ul>
+
+  <div class="mb-5">
+    <div class="text-3xl w-full font-bold">Skills</div>
+  </div>
+
+  <ul class="list-disc md:columns-5 columns-2 mx-6">
+    <li>Effective Communication</li>
+    <li>Team Collaboration</li>
+    <li>Problem Solving</li>
+    <li>Adaptability</li>
+    <li>Attention to Detail</li>
+    <li>Time Management</li>
+    <li>Network Security</li>
+    <li>Penetration Testing</li>
+    <li>Secure Coding</li>
+    <li>Incident Response</li>
+    <li>Identity Management</li>
+    <li>Cloud Security</li>
+  </ul>
+</BaseLayout>
