@@ -1,0 +1,180 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(to right, #525050, #ffffff); /* Gradient background */
+    padding: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    background: linear-gradient(to right, #525050, #ffffff); /* Slightly transparent background */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px; /* Optional: adds rounded corners to the header */
+}
+
+.about-button,
+.post-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    background-color: #fff;
+    color: grey;
+    text-decoration: none;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    margin: 5px;
+}
+
+.about-button:hover,
+.post-button:hover {
+    background-color: lightgray;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.main-profile {
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 60px); /* Adjust for header height */
+}
+
+.profile {
+    text-align: center;
+}
+
+.profile-photo {
+    width: 200px; /* Adjust the size as needed */
+    height: 200px; /* Adjust the size as needed */
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.profile h1 {
+    font-size: 2em;
+    color: #fff; /* Changed text color for better visibility against the gradient */
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.fa {
+    width: 100px;
+    font-size: 38px !important;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 10px; /* Corregido el margen */
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-linkedin {
+    background-color: #fff;
+    color: #000;
+}
+
+.fa-linkedin:hover {
+    background-color: lightgray;
+}
+
+.fa-instagram {
+    background: #fff;
+    color: #000;
+}
+
+.fa-instagram:hover {
+    background-color: lightgray;
+}
+
+.post {
+    background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.post h2 {
+    margin-bottom: 10px;
+    color: #444;
+}
+
+iframe {
+    border: none;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.posts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.post {
+    flex: 1 1 calc(33.33% - 20px);
+    background: #fff;
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.post h2 {
+    margin-top: 0;
+}
+
+.post p {
+    color: #666;
+}
+
+.post:hover {
+    background-color: #f5f5f5;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: #0077b5;
+    transition: background-color 0.3s;
+}
+
+footer a:hover {
+    background-color: #005582;
+}
